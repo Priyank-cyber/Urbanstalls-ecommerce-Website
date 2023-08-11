@@ -25,4 +25,4 @@
 
 *EXPLORE OUR WEBSITE and HAVE FUN:) *
 
-OUR GITHUB LINK - 
+OUR GITHUB LINK - https://github.com/Priyank-cyber/Urbanstalls-ecommerce-Website.git 
