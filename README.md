@@ -23,6 +23,10 @@
 *DONE, you have successfully set up the project using the XAMPP server in 
  Windows system*
 
+admin login - 'http://localhost/shopping/admin' 
+Admin user - admin
+Admin password - Password@123
+
 *EXPLORE OUR WEBSITE and HAVE FUN:) *
 
 OUR GITHUB LINK - https://github.com/Priyank-cyber/Urbanstalls-ecommerce-Website.git 
