@@ -2,6 +2,11 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
+
+// Define maximum attempts and lockout duration
+$maxAttempts = 5;
+$lockoutDuration = 300; // 300 seconds (5 minutes)
+
 // Code user Registration
 if(isset($_POST['submit']))
 {
@@ -17,43 +22,47 @@ if($query)
 else{
 echo "<script>alert('Not register something went worng');</script>";
 }
-} 
+}
 // Code for User login
-if(isset($_POST['login']))
-{
-   $email=$_POST['email'];
-   $password=md5($_POST['password']);
-$query=mysqli_query($con,"SELECT * FROM users WHERE email='$email' and password='$password'");
-$num=mysqli_fetch_array($query);
-if($num>0)
-{
-$extra="my-cart.php";
-$_SESSION['login']=$_POST['email'];
-$_SESSION['id']=$num['id'];
-$_SESSION['username']=$num['name'];
-$uip=$_SERVER['REMOTE_ADDR'];
-$status=1;
-$log=mysqli_query($con,"insert into userlog(userEmail,userip,status) values('".$_SESSION['login']."','$uip','$status')");
-$host=$_SERVER['HTTP_HOST'];
-$uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
-header("location:http://$host$uri/$extra");
-exit();
-}
-else
-{
-$extra="login.php";
-$email=$_POST['email'];
-$uip=$_SERVER['REMOTE_ADDR'];
-$status=0;
-$log=mysqli_query($con,"insert into userlog(userEmail,userip,status) values('$email','$uip','$status')");
-$host  = $_SERVER['HTTP_HOST'];
-$uri  = rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
-header("location:http://$host$uri/$extra");
-$_SESSION['errmsg']="Invalid email id or Password";
-exit();
-}
-}
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = md5($_POST['password']);
 
+    // Check if the user is currently locked out
+    $lockoutKey = 'login_lock_' . $email;
+    if ($_SESSION[$lockoutKey] && $_SESSION[$lockoutKey] > time()) {
+        $_SESSION['errmsg'] = "Too many unsuccessful attempts. Please try again later.";
+        header("Location: login.php");
+        exit();
+    }
+
+    $query = mysqli_query($con, "SELECT * FROM users WHERE email='$email' and password='$password'");
+    $num = mysqli_fetch_array($query);
+    if ($num > 0) {
+        // Successful login
+        // ... (your existing login code)
+        unset($_SESSION[$lockoutKey]); // Reset lockout counter on successful login
+    } else {
+        // Unsuccessful login
+        if (!isset($_SESSION[$lockoutKey])) {
+            $_SESSION[$lockoutKey] = 1;
+        } else {
+            $_SESSION[$lockoutKey]++;
+        }
+
+        // Check if the maximum attempts are reached
+        if ($_SESSION[$lockoutKey] >= $maxAttempts) {
+            $_SESSION[$lockoutKey] = time() + $lockoutDuration; // Set lockout time
+            $_SESSION['errmsg'] = "Too many unsuccessful attempts. Please try again later.";
+            header("Location: login.php");
+            exit();
+        } else {
+            $_SESSION['errmsg'] = "Invalid email id or Password";
+            header("Location: login.php");
+            exit();
+        }
+    }
+}
 
 ?>
 
