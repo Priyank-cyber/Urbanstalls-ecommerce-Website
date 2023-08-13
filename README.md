@@ -15,10 +15,8 @@
 
 -> Setup of Database:
 - Open your web browser and go to the link - 'http://localhost/phpmyadmin' 
-- Create your new database for the project by clicking the 'Create' button
-  and provide your database name = 'Database name = shopping'
-- Import the database (.sql) that is with your project. You can find that file 
-  in the 'Sql' directory of the project
+- Create your new database for the project by clicking the 'Create' button and provide your database name = 'shopping'
+- Import the database (.sql) that is with your project. You can find that file in the 'Sql' directory of the project
 
 -> Start the Project:
 - Open the new tab/window of your web browser
