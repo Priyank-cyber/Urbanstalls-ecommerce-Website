@@ -9,8 +9,8 @@
 - Open the XAMPP Control Panel
 - Start the Apache and MySQL modules by clicking the 'Start' button
 
-->If you don't have the project zip file, proceed to the next step; otherwise, skip it. 
--download Project from https://github.com/Priyank-cyber/Urbanstalls-ecommerce-Website.git
+-> If you don't have the project zip file, follow below steps; otherwise, skip this step.
+- download Project from https://github.com/Priyank-cyber/Urbanstalls-ecommerce-Website.git
 - unzip it and rename the directory as 'shopping'.
 
 -> Setup of Database:
